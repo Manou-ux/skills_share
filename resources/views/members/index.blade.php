@@ -8,47 +8,46 @@
 
     <div class="ss-page">
         <div class="ss-container">
-            <div class="ss-card p-4 sm:p-5 mb-6">
-                <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end">
-                    <div class="lg:col-span-2">
-                        <label class="ss-label">Recherche</label>
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Nom, ville, skill…" class="ss-input">
+<div class="ss-card p-3 sm:p-4 mb-8">
+                <form method="GET" class="flex flex-wrap items-end gap-2.5">
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="ss-label text-xs">Recherche</label>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Nom, ville, skill…" class="ss-input text-sm py-1.5">
                     </div>
-                    <div>
-                        <label class="ss-label">Catégorie</label>
-                        <select name="category" class="ss-input">
+                    <div class="w-36">
+                        <label class="ss-label text-xs">Catégorie</label>
+                        <select name="category" class="ss-input text-sm py-1.5">
                             <option value="">Toutes</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" @selected(request('category') == $category->id)>{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div>
-                        <label class="ss-label">Skill</label>
-                        <select name="skill" class="ss-input">
+                    <div class="w-36">
+                        <label class="ss-label text-xs">Skill</label>
+                        <select name="skill" class="ss-input text-sm py-1.5">
                             <option value="">Tous</option>
                             @foreach ($skills as $skill)
                                 <option value="{{ $skill->id }}" @selected(request('skill') == $skill->id)>{{ $skill->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <div class="flex-1 min-w-[120px]">
-                            <label class="ss-label">Type</label>
-                            <select name="type" class="ss-input">
-                                <option value="">Tous</option>
-                                <option value="offre" @selected(request('type') === 'offre')>Offre</option>
-                                <option value="besoin" @selected(request('type') === 'besoin')>Besoin</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="ss-btn-primary self-end">Rechercher</button>
+                    <div class="w-28">
+                        <label class="ss-label text-xs">Type</label>
+                        <select name="type" class="ss-input text-sm py-1.5">
+                            <option value="">Tous</option>
+                            <option value="offre" @selected(request('type') === 'offre')>Offre</option>
+                            <option value="besoin" @selected(request('type') === 'besoin')>Besoin</option>
+                        </select>
                     </div>
+                    <button type="submit" class="ss-btn-primary text-sm px-4 py-1.5">Rechercher</button>
+
+                    @if (request()->hasAny(['q', 'category', 'skill', 'type']))
+                        <a href="{{ route('members.index') }}" class="text-xs text-slate-500 hover:text-teal-700 ml-1">
+                            Réinitialiser
+                        </a>
+                    @endif
                 </form>
-                @if (request()->hasAny(['q', 'category', 'skill', 'type']))
-                    <div class="mt-3">
-                        <a href="{{ route('members.index') }}" class="text-sm text-slate-500 hover:text-teal-700">Réinitialiser les filtres</a>
-                    </div>
-                @endif
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
