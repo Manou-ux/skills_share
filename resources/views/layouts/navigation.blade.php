@@ -15,6 +15,17 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('members.index')" :active="request()->routeIs('members.*')">
+                        {{ __('Membres') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('user-skills.index')" :active="request()->routeIs('user-skills.*')">
+                        {{ __('Mes compétences') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('exchange-requests.index')" :active="request()->routeIs('exchange-requests.*')">
+                        {{ __('Mes demandes') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
