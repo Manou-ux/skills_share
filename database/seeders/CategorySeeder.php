@@ -15,10 +15,10 @@ public function run(): void
     $categories = ['Informatique', 'Langues', 'Musique', 'Cuisine', 'Bricolage', 'Sport'];
 
     foreach ($categories as $name) {
-        \App\Models\Category::create([
-            'name' => $name,
-            'slug' => \Illuminate\Support\Str::slug($name),
-        ]);
+        \App\Models\Category::firstOrCreate(
+            ['slug' => \Illuminate\Support\Str::slug($name)],
+            ['name' => $name]
+        );
     }
 }
 }

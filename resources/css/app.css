@@ -1,3 +1,126 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --ss-brand: #0f766e;
+        --ss-brand-dark: #115e59;
+        --ss-brand-soft: #ccfbf1;
+        --ss-ink: #0f172a;
+        --ss-muted: #64748b;
+        --ss-surface: #f1f5f9;
+        --ss-card: #ffffff;
+        --ss-accent: #d97706;
+        --ss-offer: #047857;
+        --ss-need: #c2410c;
+        --ss-border: #e2e8f0;
+    }
+
+    body {
+        color: var(--ss-ink);
+        background-color: var(--ss-surface);
+    }
+}
+
+@layer components {
+    .ss-btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2;
+    }
+
+    .ss-btn-primary {
+        @apply ss-btn text-white focus:ring-teal-600;
+        background: var(--ss-brand);
+    }
+
+    .ss-btn-primary:hover {
+        background: var(--ss-brand-dark);
+    }
+
+    .ss-btn-secondary {
+        @apply ss-btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 focus:ring-teal-600;
+    }
+
+    .ss-btn-danger {
+        @apply ss-btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+    }
+
+    .ss-btn-ghost {
+        @apply ss-btn text-slate-600 hover:bg-slate-100 focus:ring-teal-600;
+    }
+
+    .ss-card {
+        @apply bg-white rounded-2xl border border-slate-200/80 shadow-sm;
+    }
+
+    .ss-input {
+        @apply w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600 text-sm;
+    }
+
+    .ss-label {
+        @apply block text-sm font-medium text-slate-700 mb-1.5;
+    }
+
+    .ss-badge {
+        @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    }
+
+    .ss-badge-offer {
+        @apply ss-badge bg-emerald-50 text-emerald-700;
+    }
+
+    .ss-badge-need {
+        @apply ss-badge bg-orange-50 text-orange-700;
+    }
+
+    .ss-badge-pending {
+        @apply ss-badge bg-amber-50 text-amber-700;
+    }
+
+    .ss-badge-ok {
+        @apply ss-badge bg-emerald-50 text-emerald-700;
+    }
+
+    .ss-badge-ko {
+        @apply ss-badge bg-red-50 text-red-700;
+    }
+
+    .ss-page {
+        @apply py-8 sm:py-10;
+    }
+
+    .ss-container {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+
+    .ss-container-sm {
+        @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+
+    .ss-section-title {
+        @apply text-lg font-semibold text-slate-900;
+    }
+
+    .ss-muted {
+        @apply text-sm text-slate-500;
+    }
+
+    .ss-avatar {
+        @apply inline-flex items-center justify-center rounded-full font-semibold shrink-0;
+        background: var(--ss-brand-soft);
+        color: var(--ss-brand-dark);
+    }
+
+    .ss-alert-success {
+        @apply rounded-xl bg-emerald-50 text-emerald-800 px-4 py-3 text-sm border border-emerald-100;
+    }
+
+    .ss-alert-error {
+        @apply rounded-xl bg-red-50 text-red-700 px-4 py-3 text-sm border border-red-100;
+    }
+
+    .ss-badge-unread {
+        @apply inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-[11px] font-bold leading-none text-white;
+        background-color: #ef4444;
+    }
+}

@@ -1,0 +1,30 @@
+🔑 IDENTIFIANTS DE TOUS LES UTILISATEURS
+🛡️ Espace Administration
+URL d'accès : /admin/login
+Nom d'utilisateur : admin
+Mot de passe : admin
+👤 Comptes Membres (Démonstration)
+(Remarque : Tous les comptes membres ci-dessous utilisent le mot de passe : password)
+
+Utilisateur de Test Général :
+
+Email : test@example.com
+Mot de passe : password
+Alice Rakoto (Ville: Antananarivo) :
+
+Email : alice@demo.test
+Mot de passe : password
+Offres : Laravel (Expert), Python (Intermédiaire)
+Besoins : Anglais
+Bruno Raso (Ville: Toamasina) :
+
+Email : bruno@demo.test
+Mot de passe : password
+Offres : Guitare (Expert), Anglais (Intermédiaire)
+Besoins : Laravel
+Clara Andria (Ville: Fianarantsoa) :
+
+Email : clara@demo.test
+Mot de passe : password
+Offres : Anglais (Expert)
+Besoins : React, Piano

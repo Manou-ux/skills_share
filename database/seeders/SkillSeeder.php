@@ -25,11 +25,10 @@ public function run(): void
         $category = \App\Models\Category::where('name', $categoryName)->first();
 
         foreach ($skillNames as $skillName) {
-            \App\Models\Skill::create([
-                'category_id' => $category->id,
-                'name' => $skillName,
-                'slug' => \Illuminate\Support\Str::slug($skillName),
-            ]);
+            \App\Models\Skill::firstOrCreate(
+                ['slug' => \Illuminate\Support\Str::slug($skillName)],
+                ['category_id' => $category->id, 'name' => $skillName]
+            );
         }
     }
 }

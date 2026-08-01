@@ -7,17 +7,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserSkillRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
@@ -26,7 +21,15 @@ class StoreUserSkillRequest extends FormRequest
             'skill_id' => ['required', 'exists:skills,id'],
             'type' => ['required', 'in:offre,besoin'],
             'niveau' => ['nullable', 'required_if:type,offre', 'in:debutant,intermediaire,expert'],
-    
+            'description' => ['required', 'string', 'min:10', 'max:1000'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'description.required' => 'Ajoutez une description pour votre offre ou besoin.',
+            'description.min' => 'La description doit faire au moins 10 caractères.',
         ];
     }
 }

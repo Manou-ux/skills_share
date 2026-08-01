@@ -1,97 +1,103 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profil de {{ $user->name }}</h2>
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-slate-900">Profil de {{ $user->name }}</h2>
+                <p class="ss-muted mt-1">Compétences, besoins et contact.</p>
+            </div>
+            <a href="{{ route('members.index') }}" class="ss-btn-ghost">← Retour</a>
+        </div>
     </x-slot>
 
-    <div class="py-8">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
-            {{-- Infos --}}
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
+    <div class="ss-page">
+        <div class="ss-container-sm space-y-6">
+            <div class="ss-card p-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="ss-avatar w-16 h-16 text-xl">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ $user->name }}</h3>
+                            @if ($user->city)
+                                <p class="text-slate-500">{{ $user->city }}</p>
+                            @endif
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800">{{ $user->name }}</h3>
-                        @if ($user->city)
-                            <p class="text-gray-500">{{ $user->city }}</p>
-                        @endif
-                    </div>
+                    <a href="{{ route('chat.start', $user) }}" class="ss-btn-primary">Envoyer un message</a>
                 </div>
                 @if ($user->bio)
-                    <p class="mt-4 text-gray-600">{{ $user->bio }}</p>
+                    <p class="mt-4 text-slate-600 leading-relaxed">{{ $user->bio }}</p>
                 @endif
             </div>
 
-            {{-- Offres --}}
-            <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="font-semibold text-gray-800 mb-3">Compétences proposées</h3>
-                <div class="flex flex-wrap gap-2">
+            <div class="ss-card p-6">
+                <h3 class="ss-section-title mb-3">Compétences proposées</h3>
+                <div class="space-y-3">
                     @forelse ($user->userSkills->where('type', 'offre') as $userSkill)
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                            {{ $userSkill->skill->name }}
-                            <span class="text-green-500">· {{ $userSkill->niveau }}</span>
-                        </span>
+                        <div class="rounded-xl border border-emerald-100 bg-emerald-50/40 p-3">
+                            <span class="ss-badge-offer">
+                                {{ $userSkill->skill->name }}
+                                @if ($userSkill->niveau)
+                                    · {{ ucfirst(str_replace('_', ' ', $userSkill->niveau)) }}
+                                @endif
+                            </span>
+                            @if ($userSkill->description)
+                                <p class="text-sm text-slate-600 mt-2">{{ $userSkill->description }}</p>
+                            @endif
+                        </div>
                     @empty
-                        <p class="text-gray-400 text-sm">Aucune compétence proposée pour le moment.</p>
+                        <p class="ss-muted">Aucune offre pour le moment.</p>
                     @endforelse
                 </div>
             </div>
 
-            {{-- Besoins --}}
-            <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="font-semibold text-gray-800 mb-3">Besoins d'apprentissage</h3>
-                <div class="flex flex-wrap gap-2">
+            <div class="ss-card p-6">
+                <h3 class="ss-section-title mb-3">Besoins d’apprentissage</h3>
+                <div class="space-y-3">
                     @forelse ($user->userSkills->where('type', 'besoin') as $userSkill)
-                        <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">
-                            {{ $userSkill->skill->name }}
-                        </span>
+                        <div class="rounded-xl border border-orange-100 bg-orange-50/40 p-3">
+                            <span class="ss-badge-need">{{ $userSkill->skill->name }}</span>
+                            @if ($userSkill->description)
+                                <p class="text-sm text-slate-600 mt-2">{{ $userSkill->description }}</p>
+                            @endif
+                        </div>
                     @empty
-                        <p class="text-gray-400 text-sm">Aucun besoin exprimé pour le moment.</p>
+                        <p class="ss-muted">Aucun besoin exprimé.</p>
                     @endforelse
                 </div>
             </div>
 
-            {{-- Envoyer une demande --}}
-            <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="font-semibold text-gray-800 mb-3">Proposer un échange</h3>
+            <div class="ss-card p-6">
+                <h3 class="ss-section-title mb-3">Proposer un échange</h3>
 
-                @if (session('success'))
-                    <p class="text-green-600 text-sm mb-3">{{ session('success') }}</p>
+                @if ($errors->any())
+                    <div class="ss-alert-error mb-3">{{ $errors->first() }}</div>
                 @endif
 
-                <form method="POST" action="{{ route('exchange-requests.store') }}" class="space-y-3">
-                    @csrf
-                    <input type="hidden" name="receiver_id" value="{{ $user->id }}">
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Compétence concernée</label>
-                        <select name="skill_id" class="w-full rounded-md border-gray-300 shadow-sm" required>
-                            <option value="">-- Choisir --</option>
-                            @foreach ($user->userSkills as $userSkill)
-                                <option value="{{ $userSkill->skill_id }}">
-                                    {{ $userSkill->skill->name }} ({{ $userSkill->type }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('skill_id')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
-                        <textarea name="message" rows="3" class="w-full rounded-md border-gray-300 shadow-sm"
-                                  placeholder="Bonjour, je suis intéressé par..."></textarea>
-                    </div>
-
-                    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 text-sm">
-                        Envoyer la demande
-                    </button>
-                </form>
+                @if ($user->userSkills->where('type', 'offre')->isEmpty())
+                    <p class="ss-muted">Ce membre n’a pas encore d’offre disponible.</p>
+                @else
+                    <form method="POST" action="{{ route('exchange-requests.store') }}" class="space-y-4">
+                        @csrf
+                        <input type="hidden" name="receiver_id" value="{{ $user->id }}">
+                        <div>
+                            <label class="ss-label">Compétence concernée</label>
+                            <select name="skill_id" class="ss-input" required>
+                                <option value="">-- Choisir --</option>
+                                @foreach ($user->userSkills->where('type', 'offre') as $userSkill)
+                                    <option value="{{ $userSkill->skill_id }}" @selected(old('skill_id') == $userSkill->skill_id)>
+                                        {{ $userSkill->skill->name }}@if($userSkill->niveau) ({{ $userSkill->niveau }})@endif
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="ss-label">Message (optionnel)</label>
+                            <textarea name="message" rows="3" class="ss-input" placeholder="Bonjour, je suis intéressé par...">{{ old('message') }}</textarea>
+                        </div>
+                        <button type="submit" class="ss-btn-primary">Envoyer la demande</button>
+                    </form>
+                @endif
             </div>
-
         </div>
     </div>
 </x-app-layout>

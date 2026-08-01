@@ -8,7 +8,7 @@ class UserSkill extends Model
 {
     protected $table = 'user_skill';
 
-    protected $fillable = ['user_id', 'skill_id', 'type', 'niveau'];
+    protected $fillable = ['user_id', 'skill_id', 'type', 'niveau', 'description'];
 
     public function user()
     {
